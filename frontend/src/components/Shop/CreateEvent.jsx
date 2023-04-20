@@ -35,7 +35,7 @@ const CreateEvent = () => {
     const endDate = new Date(e.target.value);
      setEndDate(endDate);
  };
-
+   
  const today = new Date().toISOString().slice(0,10);
 
  const minEndDate = startDate ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0,10) : "";
