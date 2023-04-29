@@ -9,9 +9,6 @@ export const loadUser = () => async (dispatch) => {
     });
     const { data } = await axios.get(`${server}/user/getuser`, {
       withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Credentials": true,
-      },
     });
     dispatch({
       type: "LoadUserSuccess",
@@ -33,9 +30,6 @@ export const loadSeller = () => async (dispatch) => {
     });
     const { data } = await axios.get(`${server}/shop/getSeller`, {
       withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Credentials": true,
-      },
     });
     dispatch({
       type: "LoadSellerSuccess",
@@ -158,9 +152,6 @@ export const getAllUsers = () => async (dispatch) => {
 
     const { data } = await axios.get(`${server}/user/admin-all-users`, {
       withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Credentials": true,
-      },
     });
 
     dispatch({
