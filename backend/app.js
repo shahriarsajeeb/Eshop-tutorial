@@ -6,20 +6,23 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
-// Allow requests from specific origin with credentials
+const allowedOrigins = [
+  "https://eshop-tutorial-cefl.vercel.app",
+  "https://eshop-tutorial-cefl-im1hyv6tl-shahriarsajeeb.vercel.app",
+];
+
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) {
-      return callback(null, true);
-    }
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
 
-    if (origin === "https://eshop-tutorial-cefl.vercel.app") {
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
+    } else {
+      const error = new Error(`Not allowed by CORS: ${origin}`);
+      error.status = 403;
+      return callback(error);
     }
-
-    const error = new Error(`Not allowed by CORS: ${origin}`);
-    error.status = 403;
-    callback(error);
   },
   credentials: true,
 };
