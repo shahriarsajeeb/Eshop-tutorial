@@ -9,12 +9,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://eshop-tutorial-cefl.vercel.app",
+    origin: ["https://eshop-tutorial-cefl.vercel.app"],
     credentials: true,
   })
 );
 app.use("/", express.static("uploads"));
-app.use("/", (req,res) => {
+app.use("/test", (req,res) => {
   res.send("Hello world!");
 });
 
