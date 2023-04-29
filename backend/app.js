@@ -25,6 +25,7 @@ const corsOptions = {
     }
   },
   credentials: true,
+  exposedHeaders: ["set-cookie"],
 };
 
 app.use(express.json());
