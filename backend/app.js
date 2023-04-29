@@ -6,27 +6,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
-const allowedOrigins = [
-  "https://eshop-tutorial-cefl.vercel.app",
-  "https://eshop-tutorial-cefl-im1hyv6tl-shahriarsajeeb.vercel.app",
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      const error = new Error(`Not allowed by CORS: ${origin}`);
-      error.status = 403;
-      return callback(error);
-    }
-  },
-  credentials: true,
-  exposedHeaders: ["set-cookie"],
-};
+app.use(cors({
+  origin: 'https://eshop-tutorial-cefl.vercel.app',
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());
