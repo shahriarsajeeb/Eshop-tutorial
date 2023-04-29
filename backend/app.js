@@ -11,6 +11,13 @@ app.use(cors({
   credentials: true
 }));
 
+app.options('*', cors({
+  origin: ["https://eshop-tutorial-cefl.vercel.app"],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "./uploads")));
