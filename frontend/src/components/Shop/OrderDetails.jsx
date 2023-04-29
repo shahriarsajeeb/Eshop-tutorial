@@ -59,6 +59,9 @@ const OrderDetails = () => {
     });
   }
 
+  console.log(data?.status);
+
+
   return (
     <div className={`py-4 min-h-screen ${styles.section}`}>
       <div className="w-full flex items-center justify-between">
@@ -165,8 +168,9 @@ const OrderDetails = () => {
             ))}
         </select>
       )}
-
-      <select value={status} 
+      {
+        data?.status === "Processing refund" || data?.status === "Refund Success" ? (
+          <select value={status} 
        onChange={(e) => setStatus(e.target.value)}
        className="w-[200px] mt-2 border h-[35px] rounded-[5px]"
       >
@@ -186,6 +190,8 @@ const OrderDetails = () => {
               </option>
             ))}
       </select>
+        ) : null
+      }
 
       <div
         className={`${styles.button} mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px]`}

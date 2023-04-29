@@ -51,7 +51,7 @@ const UserOrderDetails = () => {
         toast.error(error);
       });
   };
-
+  
   const refundHandler = async () => {
     await axios.put(`${server}/order/order-refund/${id}`,{
       status: "Processing refund"
@@ -85,7 +85,8 @@ const UserOrderDetails = () => {
       <br />
       <br />
       {data &&
-        data?.cart.map((item, index) => (
+        data?.cart.map((item, index) => {
+          return(
           <div className="w-full flex items-start mb-5">
             <img
               src={`${backend_url}/${item.images[0]}`}
@@ -98,16 +99,17 @@ const UserOrderDetails = () => {
                 US${item.discountPrice} x {item.qty}
               </h5>
             </div>
-            {item.isReviewed || item.status !== "delivered" ? null : (
-              <div
+            {!item.isReviewed && data?.status === "Delivered" ?  <div
                 className={`${styles.button} text-[#fff]`}
                 onClick={() => setOpen(true) || setSelectedItem(item)}
               >
                 Write a review
-              </div>
+              </div> : (
+             null
             )}
           </div>
-        ))}
+          )
+         })}
 
       {/* review popup */}
       {open && (
