@@ -7,9 +7,9 @@
     "node": "18.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false"
   },
   "author": "shahriar Sajeeb",
   "license": "ISC",
