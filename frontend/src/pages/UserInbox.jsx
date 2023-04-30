@@ -21,7 +21,7 @@ const UserInbox = () => {
   const [newMessage, setNewMessage] = useState("");
   const [userData, setUserData] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-    const [images, setImages] = useState();
+  const [images, setImages] = useState();
   const [activeStatus, setActiveStatus] = useState(false);
   const [open, setOpen] = useState(false);
   const scrollRef = useRef(null);
@@ -62,8 +62,8 @@ const UserInbox = () => {
 
   useEffect(() => {
     if (user) {
-      const userId = user?._id;
-      socketId.emit("addUser", userId);
+      const sellerId = user?._id;
+      socketId.emit("addUser", sellerId);
       socketId.on("getUsers", (data) => {
         setOnlineUsers(data);
       });
@@ -173,7 +173,7 @@ const UserInbox = () => {
 
     try {
       await axios
-        .post(`${server}/message/create-new-message`, formData,{
+        .post(`${server}/message/create-new-message`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -272,7 +272,6 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const res = await axios.get(`${server}/shop/get-shop-info/${userId}`);
-
         setUser(res.data.shop);
       } catch (error) {
         console.log(error);
@@ -296,7 +295,7 @@ const MessageList = ({
     >
       <div className="relative">
         <img
-          src={`${backend_url}${userData?.avatar}`}
+          src={`${backend_url}${user?.avatar}`}
           alt=""
           className="w-[50px] h-[50px] rounded-full"
         />
@@ -307,7 +306,7 @@ const MessageList = ({
         )}
       </div>
       <div className="pl-3">
-        <h1 className="text-[18px]">{userData?.name}</h1>
+        <h1 className="text-[18px]">{user?.name}</h1>
         <p className="text-[16px] text-[#000c]">
           {data?.lastMessageId !== userData?._id
             ? "You:"
@@ -329,7 +328,7 @@ const SellerInbox = ({
   userData,
   activeStatus,
   scrollRef,
-  handleImageUpload
+  handleImageUpload,
 }) => {
   return (
     <div className="w-[full] min-h-full flex flex-col justify-between p-5">
@@ -370,31 +369,27 @@ const SellerInbox = ({
                   alt=""
                 />
               )}
-              {
-                item.images && (
-                  <img
-                     src={`${backend_url}${item.images}`}
-                     className="w-[300px] h-[300px] object-cover rounded-[10px] ml-2 mb-2"
-                  />
-                )
-              }
-             {
-              item.text !== "" && (
+              {item.images && (
+                <img
+                  src={`${backend_url}${item.images}`}
+                  className="w-[300px] h-[300px] object-cover rounded-[10px] ml-2 mb-2"
+                />
+              )}
+              {item.text !== "" && (
                 <div>
-                <div
-                  className={`w-max p-2 rounded ${
-                    item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
-                  } text-[#fff] h-min`}
-                >
-                  <p>{item.text}</p>
-                </div>
+                  <div
+                    className={`w-max p-2 rounded ${
+                      item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
+                    } text-[#fff] h-min`}
+                  >
+                    <p>{item.text}</p>
+                  </div>
 
-                <p className="text-[12px] text-[#000000d3] pt-1">
-                  {format(item.createdAt)}
-                </p>
-              </div>
-              )
-             }
+                  <p className="text-[12px] text-[#000000d3] pt-1">
+                    {format(item.createdAt)}
+                  </p>
+                </div>
+              )}
             </div>
           ))}
       </div>
@@ -406,7 +401,7 @@ const SellerInbox = ({
         onSubmit={sendMessageHandler}
       >
         <div className="w-[30px]">
-           <input
+          <input
             type="file"
             name=""
             id="image"

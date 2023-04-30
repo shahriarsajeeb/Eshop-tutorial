@@ -62,8 +62,8 @@ const DashboardMessages = () => {
 
   useEffect(() => {
     if (seller) {
-      const userId = seller?._id;
-      socketId.emit("addUser", userId);
+      const sellerId = seller?._id;
+      socketId.emit("addUser", sellerId);
       socketId.on("getUsers", (data) => {
         setOnlineUsers(data);
       });
@@ -259,6 +259,7 @@ const MessageList = ({
   online,
   setActiveStatus,
 }) => {
+  console.log(data);
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
   const handleClick = (id) => {
