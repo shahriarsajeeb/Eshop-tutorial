@@ -1,22 +1,10 @@
 {
    "version": 2,
+   "name": "e-shop-tutorial",
    "builds": [
-     {
-       "src": "server.js",
-       "use": "@vercel/node"
-     }
+      { "src": "server.js", "use": "@vercel/node" }
    ],
    "routes": [
-     {
-       "src": "/(.*)",
-       "dest": "/server.js"
-     }
-   ],
-   "env": {
-     "UPLOADS_DIR": "uploads"
-   },
-   "files": [
-     "uploads/**"
+      { "src": "/(.*)", "dest": "/server.js" }
    ]
- }
- 
+}
