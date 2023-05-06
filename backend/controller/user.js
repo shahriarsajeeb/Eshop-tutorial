@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
-const user = require("../model/user");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
