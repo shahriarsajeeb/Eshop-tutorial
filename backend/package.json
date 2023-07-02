@@ -4,12 +4,11 @@
   "description": "",
   "main": "server.js",
   "engines": {
-    "node": "18.10.0"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false"
+    "start": "node server.js"
   },
   "author": "shahriar Sajeeb",
   "license": "ISC",
