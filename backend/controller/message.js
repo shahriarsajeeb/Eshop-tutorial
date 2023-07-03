@@ -12,9 +12,15 @@ router.post(
     try {
       const messageData = req.body;
 
-      const myCloud = await cloudinary.v2.uploader.upload(req.body.images, {
-        folder: "messages",
-      });
+      if (req.body.images) {
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.images, {
+          folder: "messages",
+        });
+        messageData.images = {
+          public_id: myCloud.public_id,
+          url: myCloud.url,
+        };
+      }
 
       messageData.conversationId = req.body.conversationId;
       messageData.sender = req.body.sender;
@@ -24,9 +30,7 @@ router.post(
         conversationId: messageData.conversationId,
         text: messageData.text,
         sender: messageData.sender,
-        images: messageData.images
-          ? { public_id: myCloud.public_id, url: myCloud.secure_url }
-          : undefined,
+        images: messageData.images ? messageData.images : undefined,
       });
 
       await message.save();

@@ -13,7 +13,7 @@ const ENDPOINT = "https://socket-ecommerce-tu68.onrender.com/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const UserInbox = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user,loading } = useSelector((state) => state.user);
   const [conversations, setConversations] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [currentChat, setCurrentChat] = useState();
@@ -229,6 +229,7 @@ const UserInbox = () => {
                 userData={userData}
                 online={onlineCheck(item)}
                 setActiveStatus={setActiveStatus}
+                loading={loading}
               />
             ))}
         </>
@@ -262,6 +263,7 @@ const MessageList = ({
   userData,
   online,
   setActiveStatus,
+  loading
 }) => {
   const [active, setActive] = useState(0);
   const [user, setUser] = useState([]);
@@ -313,7 +315,7 @@ const MessageList = ({
       <div className="pl-3">
         <h1 className="text-[18px]">{user?.name}</h1>
         <p className="text-[16px] text-[#000c]">
-          {data?.lastMessageId !== userData?._id
+          {!loading && data?.lastMessageId !== userData?._id
             ? "You:"
             : userData?.name.split(" ")[0] + ": "}{" "}
           {data?.lastMessage}
