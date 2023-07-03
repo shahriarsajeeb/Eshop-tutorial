@@ -33,8 +33,14 @@ const shopSchema = new mongoose.Schema({
     default: "Seller",
   },
   avatar: {
-    type: String,
-    required: true,
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
   },
   zipCode: {
     type: Number,
