@@ -148,18 +148,19 @@ const UserInbox = () => {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    setImages(file);
-    imageSendingHandler(file);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImages(reader.result);
+        imageSendingHandler(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   const imageSendingHandler = async (e) => {
-    const formData = new FormData();
-
-    formData.append("images", e);
-    formData.append("sender", user._id);
-    formData.append("text", newMessage);
-    formData.append("conversationId", currentChat._id);
 
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
@@ -173,11 +174,15 @@ const UserInbox = () => {
 
     try {
       await axios
-        .post(`${server}/message/create-new-message`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(
+          `${server}/message/create-new-message`,
+          {
+            images: e,
+            sender: user._id,
+            text: newMessage,
+            conversationId: currentChat._id,
+          }
+        )
         .then((res) => {
           setImages();
           setMessages([...messages, res.data.message]);

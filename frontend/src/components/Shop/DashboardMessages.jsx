@@ -150,19 +150,19 @@ const DashboardMessages = () => {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    setImages(file);
-    imageSendingHandler(file);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImages(reader.result);
+        imageSendingHandler(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   const imageSendingHandler = async (e) => {
-    const formData = new FormData();
-
-    formData.append("images", e);
-    formData.append("sender", seller._id);
-    formData.append("text", newMessage);
-    formData.append("conversationId", currentChat._id);
-
     const receiverId = currentChat.members.find(
       (member) => member !== seller._id
     );
@@ -175,10 +175,11 @@ const DashboardMessages = () => {
 
     try {
       await axios
-        .post(`${server}/message/create-new-message`, formData,{
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        .post(`${server}/message/create-new-message`, {
+          images: e,
+          sender: seller._id,
+          text: newMessage,
+          conversationId: currentChat._id,
         })
         .then((res) => {
           setImages();
@@ -358,48 +359,44 @@ const SellerInbox = ({
       <div className="px-3 h-[65vh] py-3 overflow-y-scroll">
         {messages &&
           messages.map((item, index) => {
-             return (
+            return (
               <div
-              className={`flex w-full my-2 ${
-                item.sender === sellerId ? "justify-end" : "justify-start"
-              }`}
-              ref={scrollRef}
-            >
-              {item.sender !== sellerId && (
-                <img
-                  src={`${userData?.avatar?.url}`}
-                  className="w-[40px] h-[40px] rounded-full mr-3"
-                  alt=""
-                />
-              )}
-              {
-                item.images && (
+                className={`flex w-full my-2 ${
+                  item.sender === sellerId ? "justify-end" : "justify-start"
+                }`}
+                ref={scrollRef}
+              >
+                {item.sender !== sellerId && (
                   <img
-                     src={`${item.images?.url}`}
-                     className="w-[300px] h-[300px] object-cover rounded-[10px] mr-2"
+                    src={`${userData?.avatar?.url}`}
+                    className="w-[40px] h-[40px] rounded-full mr-3"
+                    alt=""
                   />
-                )
-              }
-             {
-              item.text !== "" && (
-                <div>
-                <div
-                  className={`w-max p-2 rounded ${
-                    item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
-                  } text-[#fff] h-min`}
-                >
-                  <p>{item.text}</p>
-                </div>
+                )}
+                {item.images && (
+                  <img
+                    src={`${item.images?.url}`}
+                    className="w-[300px] h-[300px] object-cover rounded-[10px] mr-2"
+                  />
+                )}
+                {item.text !== "" && (
+                  <div>
+                    <div
+                      className={`w-max p-2 rounded ${
+                        item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
+                      } text-[#fff] h-min`}
+                    >
+                      <p>{item.text}</p>
+                    </div>
 
-                <p className="text-[12px] text-[#000000d3] pt-1">
-                  {format(item.createdAt)}
-                </p>
+                    <p className="text-[12px] text-[#000000d3] pt-1">
+                      {format(item.createdAt)}
+                    </p>
+                  </div>
+                )}
               </div>
-              )
-             }
-            </div>
-             )
-      })}
+            );
+          })}
       </div>
 
       {/* send message input */}
