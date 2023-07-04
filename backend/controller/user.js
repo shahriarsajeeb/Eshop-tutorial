@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const User = require("../model/user");
 const router = express.Router();
 const cloudinary = require("cloudinary");
