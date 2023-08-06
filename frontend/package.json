@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -30,8 +31,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite start",
-    "build": "vite build"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

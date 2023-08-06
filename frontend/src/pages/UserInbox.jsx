@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/Layout/Header";
 import { useSelector } from "react-redux";
 import socketIO from "socket.io-client";
-import { format } from "timeago.js";
+import { format } from "timeago.jsx";
 import { server } from "../server";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
