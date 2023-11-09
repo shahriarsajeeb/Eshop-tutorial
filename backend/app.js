@@ -9,7 +9,7 @@ app.use(cors({
   origin: ['https://eshop-tutorial-pyri.vercel.app',],
   credentials: true
 }));
-
+ 
 app.use(express.json());
 app.use(cookieParser());
 app.use("/test", (req, res) => {
